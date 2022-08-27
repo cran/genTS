@@ -1,7 +1,7 @@
 ---
 title: "README"
 author: "Hanming Tu"
-date: "02/08/2020"
+date: "01/21/2020"
 output: html_document
 ---
 
@@ -42,7 +42,11 @@ Ths app is published to: https://geotiger.shinyapps.io/07_genTS/.
 
 ## Package history
 
-* V0.1.0 and v0.1.1
+* V0.1.0
+
+Did not submit to CRAN
+
+* v0.1.1
 
 Did not submit to CRAN
 
@@ -50,7 +54,13 @@ Did not submit to CRAN
 
 01/21/2020: Submitted to CRAN 
 
-* v0.1.3
+* V0.1.3
 
-02/08/2020: reviewed and modified example
+02/08/2020: Submitted to CRAN 
+
+* V0.1.4
+
+Make changes for R 4.0
+
+09/20/2022: Submitted to CRAN 
 

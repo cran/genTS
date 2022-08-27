@@ -3,11 +3,19 @@
 ##' @param fn a file name or URL pointing to script metadata file
 #' @return R shiny code for providing inputs and downloading TS file
 #' @export
+#' @examples
+#'\dontrun{
+#'   install.package(genTS)
+#'   b <- "development/R/scripts"
+#'   c <- "Draw_Dist2_R.yml"
+#'   f1 <- paste(a,b,c, sep = '/')
+#'   r1 <- build_inputs(f1)
+#'}
 #' @author Hanming Tu
 ##' @name app
 # ---------------------------------------------------------------------------
-# HISTORY   MM/DD/YYYY (developer) - explanation
 # Purpose: simple app to create a simplified TS domain dataset
+# HISTORY   MM/DD/YYYY (developer) - explanation
 # Development History:
 #   MM/DD/2019 (developer) - description
 #   07/12/2019 (htu) - initial creation based on FDA guide:
@@ -18,6 +26,7 @@
 #   08/23/2019 (htu) - merged Bob's code
 #   08/27/2019 (htu) - added JS codes to make studyid as required and TSVAL and TSVALNF mutually exclusive
 #   11/04/2019 (htu) - implemented FDA E-1 ~ E-8 and D-1
+#   06/05/2021 (htu) - startedf v0.1.3 and added js_hide_sidebar and js_show_sidebar
 #
 
 library(shiny)
@@ -27,12 +36,12 @@ library(shinyBS)
 library(SASxport)
 library(Hmisc)
 library(rhandsontable)
-library(phuse)
+# library(phuse)
 library(DT)
 library(V8)
 library(stringr)
 
-is_empty <- phuse::is_empty;
+# is_empty <- phuse::is_empty;
 
 header <- dashboardHeader(
   title = "Creating TS Domain"
@@ -44,13 +53,20 @@ sidebar <- dashboardSidebar(
     id = "tab1",
     menuItem("Simplified TS", icon = icon("cog"),
              menuSubItem("Simplified ts.xpt Creation Guide", href = 'https://www.fda.gov/industry/study-data-standards-resources/study-data-submission-cder-and-cber', newtab = FALSE)
-             , menuSubItem("About phuse Package", href = 'install_phuse_pkg.png', newtab = TRUE)
+             , menuSubItem("About phuse Package", href = 'https://github.com/TuCai/genTS/blob/master/inst/apps/07_genTS/www/install_phuse_pkg.png', newtab = TRUE)
              # , menuSubItem('Utility Requirements',href = 'XPT_Utility_Requirements.xlsx', newtab = TRUE)
              , menuSubItem('Source Code',href='https://github.com/TuCai/phuse/blob/master/inst/examples/07_genTS/app.R', newtab = TRUE)
              
     )
   )
 )
+
+js_hide_sidebar <- 'shinyjs.hideSidebar = function(params) {
+      $("body").addClass("sidebar-collapse");
+      $(window).trigger("resize"); }'
+js_show_sidebar <- 'shinyjs.showSidebar = function(params) {
+      $("body").removeClass("sidebar-collapse");
+      $(window).trigger("resize"); }'
 
 ui <- dashboardPage(
   # dashboardHeader(),
@@ -59,12 +75,8 @@ ui <- dashboardPage(
   sidebar,
   dashboardBody(
     useShinyjs()
-    , extendShinyjs(text = 'shinyjs.hideSidebar = function(params) {
-      $("body").addClass("sidebar-collapse");
-      $(window).trigger("resize"); }')
-    , extendShinyjs(text='shinyjs.showSidebar = function(params) {
-      $("body").removeClass("sidebar-collapse");
-      $(window).trigger("resize"); }')
+    , extendShinyjs(text = js_hide_sidebar, functions = c("hideSidebar"))
+    , extendShinyjs(text=js_show_sidebar, functions = c("showSidebar"))
     , bsButton("showpanel", "Show/Hide sidebar",icon = icon("toggle-off"),
                type = "toggle",style = "info", value = TRUE)
     , tags$head(

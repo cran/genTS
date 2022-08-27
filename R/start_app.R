@@ -11,11 +11,11 @@
 #' @param loc location of the scirpt: local|github; default to 'local'
 #' @export
 #' @examples
-#' if(interactive()){
+#'\dontrun{
 #'   library(genTS)
 #'   start_appe()  # default to "02_display"
 #'   start_app(1)  # start "01_html"
-#' }
+#'}
 #' @author Hanming Tu
 #' @name start_app
 # ---------------------------------------------------------------------------
